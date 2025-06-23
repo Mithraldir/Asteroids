@@ -1,8 +1,10 @@
 from circleshape import CircleShape
 from constants import *
+from asteroid import *
 import pygame
 
 class Player(CircleShape):
+    timer = 0
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
@@ -36,3 +38,10 @@ class Player(CircleShape):
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+
+    def shoot(self):
+        single_shot = pygame.Vector2(0, 1)
+        single_shots = single_shot.rotate(self.rotation)
+        single_shots = single_shots * PLAYER_SHOT_SPEED
+        new_shot = Shot(self.position.x, self.position.y, single_shots)
+        return new_shot
